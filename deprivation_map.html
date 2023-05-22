@@ -214,7 +214,6 @@
         
             <p id="text">This choropleth map shows the change in GM's deprivation score from 2010 to 2019.</p>
         
-            <p id="text">Firstly, at the local authority level, the change in average score for each borough is shown. Where blue represents a decrease in deprivation score and red represents an increase in score. The page is set up with different buttons to control the viewing of the six different deprivation domains, and as we want to show the changes that urban renewal has brought to the city, the relative change data is used here. When the mouse is hovered over, the index of multiple deprivation data can be viewed for two different years.</p>
         </div>
     </div>
 
@@ -581,7 +580,7 @@
             var button2 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-graduation-cap"></i><div class="button-text">Education</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-graduation-cap"></i><div class="button-text">Education, Skills, Training</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style2;
@@ -607,7 +606,7 @@
             var button3 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-medkit"></i><div class="button-text">Health</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-medkit"></i><div class="button-text">Health, Disability</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style4;
@@ -620,7 +619,7 @@
             var button5 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-folder-open"></i><div class="button-text">IMD</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-folder-open"></i><div class="button-text">Index of Multiple Deprivation</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style5;
@@ -633,7 +632,7 @@
             var button6 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-home" aria-hidden="true"></i><div class="button-text">Housing</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-home" aria-hidden="true"></i><div class="button-text">Barriers to Housing Services</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style6;
@@ -646,7 +645,7 @@
             var button7 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-leaf" aria-hidden="true"></i><div class="button-text">Environment</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-leaf" aria-hidden="true"></i><div class="button-text">Living Environment</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style7;
@@ -659,7 +658,7 @@
             var button8 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-toggle-off" aria-hidden="true"></i><div class="button-text">LayerToggle</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-toggle-off" aria-hidden="true"></i><div class="button-text">Toggle borough layer</div></div>',
                     title: 'Click me',
                     onClick: toggleLayer
                 }]
@@ -975,7 +974,7 @@
             info.update = function (props) {
                 this._div.innerHTML = '<h4>Greater Manchester deprivation score change map(2010 - 2019)</h4>' + (props ?
                     '<b>' + props.type + ": " + props.name + '</b><br />' + "Area code: " + props.cd + '</b><br />' + "Change of deprivation score:  " + props.imd_change10_19
-                    : 'Double click on boroughs!');
+                    : 'Click on borough to compare LSOAs!');
             };
 
             var infoContainer = document.getElementById('info');
@@ -997,11 +996,11 @@
                 div.innerHTML += '<div class="legend-title"></div>';
 
                 for (var i = 0; i < grades.length; i++) {
-                    if (i === 0 || i === grades.length - 1) {
+                    // if (i === 0 || i === grades.length - 1) {
                         div.innerHTML += '<div class="legend-row"><div class="legend-swatch" style="background-color:' + grades[i] + '"></div><div class="legend-label">' + labels[i] + '</div></div>';
-                    } else {
-                        div.innerHTML += '<div class="legend-row"><div class="legend-swatch" style="background-color:' + grades[i] + '"></div></div>';
-                    }
+                    // } else {
+                        // div.innerHTML += '<div class="legend-row"><div class="legend-swatch" style="background-color:' + grades[i] + '"></div></div>';
+                    // }
                 }
 
 
