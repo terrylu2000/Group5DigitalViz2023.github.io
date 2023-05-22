@@ -972,9 +972,9 @@
             ===================================================*/
             // method that we will use to update the control based on feature properties passed
             info.update = function (props) {
-                this._div.innerHTML = '<h4>Greater Manchester Deprivation Change Map <br/>(2010 - 2019)</h4>' + (props ?
+                this._div.innerHTML = '<h4>Greater Manchester Deprivation Change Map (2010 - 2019)</h4>' + (props ?
                     '<b>' + props.type + ": " + props.name + '</b><br />' + "Area code: " + props.cd + '</b><br />' + "Change of deprivation score:  " + props.imd_change10_19
-                    : 'Click on borough to compare LSOAs!');
+                    : 'Click on borough to compare.');
             };
 
             var infoContainer = document.getElementById('info');
