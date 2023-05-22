@@ -210,9 +210,9 @@
         </div>
 
         <div class="text-container">
-            <p id="text">The Index of Multiple Deprivation (IMD) is an overall relative measure of deprivation constructed by combining seven domains of deprivation according to their respective weights.</p>
+            <p id="text">The Index of Multiple Deprivation (IMD) is an overall relative measure of deprivation constructed by combining seven domains of deprivation according to their respective weights, including employment, education, health, crime, housing and living environment. This choropleth map shows the change in GM's deprivation score from 2010 to 2019. </p>
         
-            <p id="text">This choropleth map shows the change in GM's deprivation score from 2010 to 2019.</p>
+            <p id="text"></p>
         
         </div>
     </div>
@@ -580,7 +580,7 @@
             var button2 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-graduation-cap"></i><div class="button-text">Education, Skills, Training</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-graduation-cap"></i><div class="button-text">Education, Skills and Training</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style2;
@@ -606,7 +606,7 @@
             var button3 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-medkit"></i><div class="button-text">Health, Disability</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-medkit"></i><div class="button-text">Health and Disability</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style4;
@@ -632,7 +632,7 @@
             var button6 = L.easyButton({
                 states: [{
                     stateName: 'default',
-                    icon: '<div class="button-icon"><i class="fa fa-home" aria-hidden="true"></i><div class="button-text">Barriers to Housing Services</div></div>',
+                    icon: '<div class="button-icon"><i class="fa fa-home" aria-hidden="true"></i><div class="button-text">Barriers to Housing and Services</div></div>',
                     title: 'Click me',
                     onClick: function (control) {
                         currentStyle = style6;
@@ -972,7 +972,7 @@
             ===================================================*/
             // method that we will use to update the control based on feature properties passed
             info.update = function (props) {
-                this._div.innerHTML = '<h4>Greater Manchester deprivation score change map(2010 - 2019)</h4>' + (props ?
+                this._div.innerHTML = '<h4>Greater Manchester Deprivation Change Map <br/>(2010 - 2019)</h4>' + (props ?
                     '<b>' + props.type + ": " + props.name + '</b><br />' + "Area code: " + props.cd + '</b><br />' + "Change of deprivation score:  " + props.imd_change10_19
                     : 'Click on borough to compare LSOAs!');
             };
