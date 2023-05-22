@@ -8,11 +8,9 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
     <link href='pop_bubble_style.css' rel='stylesheet' />
     <style>
-        .map-overlay {
-        /* background-color: rgba(255, 255, 255, 0.4); */
-        width: 600px; 
-        height: 300px; 
-        }
+        /* .map-overlay {
+        background-color: rgba(255, 255, 255, 0.4);
+        } */
     </style>
 
 </head>
@@ -66,7 +64,7 @@
     var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/yuxinnie/clf0fecp3002401mjg74zciho', // style location
-    center: [-2.28, 53.6],
+    center: [-2.28, 53.63],
     zoom: 9 // starting zoom
     });
     map.addControl(new mapboxgl.NavigationControl());
