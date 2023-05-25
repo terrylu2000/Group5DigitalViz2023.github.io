@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8' />
+		<title>Manchester Tranportation</title>
+		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+		<link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+		<script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+		<style>
+			body { margin:0; padding:0; }
+			#map { position:absolute; top:0; bottom:0; width:100%; }
+
+			.map-overlay {
+				font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+				position: absolute;
+				width: 25%;
+				top: 0;
+				left: 0;
+				padding: 10px;
+			}
+
+			.map-overlay .map-overlay-inner {
+				background-color: #fff;
+				box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+				border-radius: 3px;
+				padding: 10px;
+				margin-bottom: 10px;
+			}
+
+			.map-overlay table {
+				border: none;
+				width: 100%;
+			}
+
+			.map-overlay h2 {
+				font-size: 26px;
+				line-height: 30px;
+				display: block;
+				margin: 0 0 10px;
+			}
+
+			.map-overlay label {
+				font: 16px/18px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+				vertical-align: bottom;
+				margin: 0;
+				padding: 0;
+			}
+
+			.map-overlay .legend .bar {
+				height: 10px;
+				width: 100%;
+				background: linear-gradient(to right, #FCA107, #7F3121);
+			}
+
+			.map-overlay input {
+				display: inline;
+				vertical-align: middle;
+				margin: 5px;
+				padding: 0;
+			}
+
+			.map-overlay p.credit {
+				margin: 5px 0 0 0;
+				padding: 0;
+			}
+			
+			
+			.mapboxgl-popup {
+				max-width: 400px;
+				padding: 10px;
+				font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+			}
+			.mapboxgl-popup h3 {
+				margin: 0;
+				font-size: 14px;
+			}
+			#menu {
+				background: #fff;
+				position: absolute;
+				z-index: 1;
+				top: 10px;
+				right: 50px;
+				border-radius: 3px;
+				width: 150px;
+				border: 1px solid rgba(0, 0, 0, 0.4);
+				font-family: 'Open Sans', sans-serif;
+			}
+
+			#menu a {
+				font-size: 13px;
+				color: #404040;
+				display: block;
+				margin: 0;
+				padding: 0;
+				padding: 10px;
+				text-decoration: none;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+				text-align: center;
+			}
+
+			#menu a:last-child {
+				border: none;
+			}
+
+			#menu a:hover {
+				background-color: #f8f8f8;
+				color: #404040;
+			}
+
+			#menu a.active {
+				background-color: #4E6C50;
+				color: #ffffff;
+			}
+
+			#menu a.active:hover {
+				background: #395144;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<nav id="menu"></nav>
+		<div id='map'></div>
+
+		<div class='map-overlay'>
+			<div class='map-overlay-inner'>
+				<h2>Tranportation in Greater Manchester</h2>
+				<p class="credit">Click the buttons on the right to select/disselect layers.</p>
+				<p class="credit">Data: <a href="https://www.data.gov.uk/search?filters%5Bpublisher%5D=Transport+for+Greater+Manchester">UK Government Open Data</a>.
+					Contains <a href="https://www.data.gov.uk/search?filters%5Bpublisher%5D=Transport+for+Greater+Manchester">Transport for Greater Manchester data</a>.  Contains OS data © Crown copyright and database right 2021.</p>
+			</div>
+		</div>
+		<script>
+
+
+
+			//			Add the map
+			mapboxgl.accessToken = "pk.eyJ1Ijoia2VydWJhaSIsImEiOiJjbGQxbGV5NmUyN25mM3BudmYzaXhnaDBjIn0.9onkMbSLEiySWehb-7qvbw";
+
+			const map = new mapboxgl.Map({
+				container: 'map',
+				// Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+				style: 'mapbox://styles/mapbox/light-v11',
+				center: [-2.289,53.510],
+				maxZoom: 16,
+				minZoom: 9,
+				zoom: 10
+			});
+
+
+
+
+
+			map.on('load', function() {
+				// Add standard navigation control
+				map.addControl(new mapboxgl.NavigationControl());
+
+				const layers = map.getStyle().layers;
+
+				// Find the index of the first symbol layer in the map style.
+				let firstSymbolId;
+				for (const layer of layers) {
+					if (layer.type === 'symbol') {
+						firstSymbolId = layer.id;
+						break;
+					}
+				}
+
+				//Load Local Authority layer
+				map.addSource('Local_Authority', {
+					type: 'vector',
+					url: 'mapbox://kerubai.8h4wbgpu'
+				});
+				map.addLayer({
+					id: 'LA',
+					type: 'fill',
+					source: 'Local_Authority',
+					'source-layer': 'Local_Authority_Districts-663ik1', // name of tileset
+					layout:{
+						'visibility':'visible'
+					},
+					paint: {
+						'fill-color': '#a0aba4',
+						'fill-opacity': 0.4
+					}
+				}, firstSymbolId);
+
+
+				// Load the GM Metrolink Lines layer
+				map.addSource('MetroLines', {
+					type: 'vector',
+					url: 'mapbox://kerubai.bvm1ta1p'
+				});
+				map.addLayer({
+					id: 'GM_MetroLink_Lines',
+					type: 'line',
+					source: 'MetroLines',
+					'source-layer': 'Metrolink_Lines_Functional-0hmwbt', // name of tileset
+					layout:{
+						'visibility':'visible'
+					},
+					paint: {
+						'line-color': '#8fa168',
+						'line-width': 4
+					}
+				}, firstSymbolId);
+
+				//Load the GM Metrolink stops layer
+				map.addSource('MetroStops', {
+					type: 'vector',
+					url: 'mapbox://kerubai.1m0b4pvs'
+				});
+				map.loadImage(
+					'washington-metro.png',
+					(error, image) => {
+						if (error) throw error;
+						map.addImage('Metrolink_logo', image);
+
+						map.addLayer({
+							id:'GM_MetroLink_Stops',
+							type: 'symbol',
+							source:'MetroStops',
+							'source-layer':'Metrolink_Stops_Functional-3srjk3',
+							'layout':{
+								'visibility':'visible',
+								'icon-image':'Metrolink_logo',
+								'icon-size':0.7,
+								'text-field':'name',
+								'text-size':1
+							},
+							'paint':{
+								'text-color':'#ffffff'
+							}
+						},firstSymbolId);
+					}
+				);
+
+				//layer2
+				// Load the GM bus routes layer
+				map.addSource('BusRoutes', {
+					type: 'vector',
+					url: 'mapbox://kerubai.b1g9vbl4'
+				});
+				map.addLayer({
+					id: 'GM_BusRoutes',
+					type: 'line',
+					source: 'BusRoutes',
+					'source-layer': 'GM_BusRoutes', 
+					"minzoom":7,
+					"maxzoom": 15,
+					// name of tileset
+					layout:{
+						'visibility':'visible'
+					},
+					paint: {
+						'line-color':'#c5a97d',
+						'line-width':1
+					}
+				}, firstSymbolId);
+
+				//Load the GM bus stops layer
+				map.addSource('BusStops', {
+					type: 'vector',
+					url: 'mapbox://kerubai.91wv7gqk'
+				});
+				map.loadImage('bus.png',(error, image) => {
+					if (error) throw error;
+					map.addImage('bus_logo', image);
+
+					map.addLayer({
+						id:'GM_Bus_Stops',
+						type: 'symbol',
+						source:'BusStops',
+						'source-layer':'TfGMStoppingPoints-9wgrct',
+						'layout':{
+							'visibility':'visible',
+							'icon-image':'bus_logo',
+							'icon-size':0.5
+						},
+						paint:{
+							'icon-opacity':0.5
+						},
+						minzoom:14
+					},
+								 firstSymbolId);
+				});
+
+				// Load the GM key routes network
+				map.addSource('KeyRoutes',{
+					type: 'vector',
+					url:'mapbox://kerubai.44k3odl7'
+				});
+				map.addLayer({
+					id: 'GM_KeyRoutes',
+					type: 'line',
+					source: 'KeyRoutes',
+					'source-layer': 'GM_KeyRouteNetwork-6cd41c', // name of tileset
+					layout:{
+						'visibility':'visible'
+					},
+					paint: {
+						'line-color':'#a0a3cf',
+						'line-width':2,
+						'line-opacity':0.75
+					}
+				},
+							 firstSymbolId);
+
+
+				map.on('idle',()=>{
+					// If these layers were not added to the map, abort
+					if (!map.getLayer('GM_MetroLink_Lines')
+						||!map.getLayer('GM_MetroLink_Stops')
+						||!map.getLayer('GM_BusRoutes')
+						||!map.getLayer('GM_Bus_Stops')
+						||!map.getLayer('GM_KeyRoutes')) {
+						return;
+					}
+
+					// Enumerate ids of the layers.
+					const toggleableLayerIds = ['GM_MetroLink_Lines', 'GM_MetroLink_Stops','GM_BusRoutes','GM_Bus_Stops','GM_KeyRoutes'];
+
+					for (const id of toggleableLayerIds) {
+						//Skip layers that already have a button set up
+						if (document.getElementById(id)){
+							continue;
+						}
+						//Create a link
+						const link = document.createElement('a');
+						link.id=id;
+						link.href='#';
+						link.textContent=id;
+						link.className='active';
+						// Show or hide layer when the toggle is clicked.
+						link.onclick = function (e) {
+							const clickedLayer = this.textContent;
+							e.preventDefault();
+							e.stopPropagation();
+
+							const visibility  = map.getLayoutProperty(
+								clickedLayer,
+								'visibility'
+							);
+
+
+							// Toggle layer visibility by changing the layout object's visibility property.
+							if (visibility === 'visible') {
+								map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+								this.className = '';
+							} else {
+								this.className = 'active';
+								map.setLayoutProperty(
+									clickedLayer,
+									'visibility',
+									'visible'
+								);
+							}
+						};
+
+						const layers = document.getElementById('menu');
+						layers.appendChild(link);
+
+					}
+				});
+
+
+				// Add a popup
+				map.on('click', 'GM_MetroLink_Stops', function(e) {
+					const coordinates = e.features[0].geometry.coordinates.slice();
+					const name = e.features[0].properties.name;
+
+					// Ensure that if the map is zoomed out, the popup appears at the same location on the screen regardless of zoom level
+					while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+						coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+					}
+
+					new mapboxgl.Popup({ closeButton: false })
+						.setLngLat(coordinates)
+						.setHTML(`<h3>${name}</h3>`)
+						.addTo(map);
+				});
+				// Add a hover effect for the LA layer
+				map.on('mousemove', 'LA', function(e) {
+					map.getCanvas().style.cursor = 'pointer';
+
+					const features = map.queryRenderedFeatures(e.point, {
+						layers: ['LA']
+					});
+
+					if (features.length > 0) {
+						const hoveredFeature = features[0];
+						const laName = hoveredFeature.properties.LAD23NM;
+
+						// Set the opacity of the LA layer to 0.8 for the hovered feature and 0.4 for others
+						map.setPaintProperty('LA', 'fill-opacity', ['case', ['==', ['get', 'LAD23NM'], laName], 0.6, 0.4]);
+					}
+				});
+
+				// Reset the LA layer style when the mouse leaves
+				map.on('mouseleave', 'LA', function() {
+					map.getCanvas().style.cursor = '';
+					map.setPaintProperty('LA', 'fill-opacity', 0.4);
+				});
+
+
+
+			});
+
+		</script>
+
+	</body>
+</html>
