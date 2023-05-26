@@ -9,24 +9,16 @@
         </head>
         <body>
             
-            <div class="container">
-                <div class="chart_2">
+ 
+    
                     <div class="chart_title">
-                        <span>Housing_Prices</span>
+                        <span>Housing Prices for different types of dwellings</span>
                     </div>
                     <div class="chart_desc">
-                        <span>Lable LR001 represents All Dwellings;
-                            Lable LR002 represents Detached Dwellings;
-                            Lable LR003 represents Semi-Detached Dwellings;
-                            Lable LR004 represents Terraced Dwellings;
-                            Lable LR005 represents Flat Dwellings;
-                            Lable LR006 represents Other Dwellings;
-                            Lable LR007 represents New Dwellings;
-                            <span>
-                    </div>
+
                     
                     <div class="echarts_main"></div>
-                </div>
+
 
             </div>
         </body>
@@ -129,7 +121,7 @@
             });
 
             // fitter name
-            let chart2DataName = ['LR001', 'LR002', 'LR003', 'LR004', 'LR005', 'LR006', 'LR007'];
+            let chart2DataName = ['All Dwellings', 'All Dwellings', 'Semi-Detached Dwellings', 'Terraced Dwellings', 'Flat Dwellings', 'Other Dwellings', 'New Dwellings'];
             let chart2Series = [];
 
             chart2DataName.forEach((r) => {
@@ -174,7 +166,7 @@
             let option = {
                 tooltip: {},
                 legend: {
-                    data: ['LR001', 'LR002', 'LR003', 'LR004', 'LR005', 'LR006', 'LR007'],
+                    data: ['All Dwellings', 'All Dwellings', 'Semi-Detached Dwellings', 'Terraced Dwellings', 'Flat Dwellings', 'Other Dwellings', 'New Dwellings'],
                     left: 'center',
                 },
                 xAxis: {
@@ -187,6 +179,7 @@
             
             Chart.setOption(option);
         };
+
 
     </script>
 </html>

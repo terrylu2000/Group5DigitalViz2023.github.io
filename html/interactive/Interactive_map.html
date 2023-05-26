@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Display a map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+    <script src='https://cdn.plot.ly/plotly-2.20.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .myDiv {
+            position: relative;
+            /* 或者 position: relative; */
+            height: 50%;
+            margin: 0 auto;
+            bottom: 0;
+
+            /* 其他样式属性 */
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+
+        .map-overlay {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            position: absolute;
+            width: 17%;
+            top: 0;
+            left: 0;
+            padding: 10px;
+        }
+
+        .chart-overlay {
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            position: absolute;
+            height: 30%;
+            width: 100%;
+            bottom: 0;
+        }
+
+
+        .map-overlay .map-overlay-inner {
+            width: 500px;
+            background-color: #fff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
+            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .map-overlay table {
+            border: none;
+            width: 100%;
+        }
+
+        .map-overlay h2 {
+            width: 500px;
+            line-height: 24px;
+            display: block;
+            margin: 0 0 10px;
+        }
+
+        .pulse:hover,
+        .pulse:focus {
+            animation: pulse 1s;
+            box-shadow: 0 0 0 2em transparent;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 var(--hover);
+            }
+        }
+
+
+        .pulse {
+            --color: rgb(52, 230, 183);
+            --hover: #b9f3d8;
+        }
+
+        button {
+            color: #0b5327;
+            /* 设置文字颜色为黑色 */
+            transition: 0.25s;
+        }
+
+        button:hover,
+        button:focus {
+            border-color: var(--hover);
+            color: #fff;
+        }
+
+        button {
+            background: none;
+            border: 2px solid;
+            font: inherit;
+            line-height: 1;
+            margin: 0.5em;
+            padding: 1em 2em;
+
+        }
+
+        #floatingBox {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: #b0f2f7;
+            width: 300px;
+            height: 500px;
+            padding: 10px;
+            font-size: medium;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            opacity: 0.5;
+            /* 设置透明度为60% */
+        }
+
+        #content {
+            display: block;
+        }
+
+        #icon {
+            position: fixed;
+    top: 20px;
+    right: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: block; /* Add this line to make the icon visible */
+        }
+
+        #closeButton {
+            margin-top: 10px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id='map'></div>
+    <div id="icon">
+        <img src="data/icon.jpeg" alt="图标">
+    </div>
+
+    <div class='map-overlay'>
+        <div class='map-overlay-inner'>
+            <h2 id="laname">Housing Price Time Series in Manchester Central Area
+                </br>(Data Source: <a href="https://www.manchester.gov.uk/info/200088/statistics_and_intelligence/7611/intelligence_hub">Manchester City Council</a>)
+            </h2>
+        </div>
+        <button class="pulse" id="timeseriescharts">Timeseries</button><button class="pulse"
+            id="housingpricecompare">Yearly Compring</button>
+
+
+    </div>  <div class="chart-overlay">
+
+        <div id="myDiv">
+
+        </div>
+    </div>
+    <div id="floatingBox">
+        <div id="content">
+            <h2>Analysis</h2>
+            <p>we can observe that the average housing prices have steadily increased since 2009, except for a slight decline in 2008. Comparing the individual wards with the overall average house price, it can be noted that the prices are higher in wards such as Chorlton, Priory, and Whalley Range, especially Chorlton. These wards are located near Media City. Wards with prices lower than the overall average are found in the vicinity of the city centre, such as Gorton North. Compared to the Ordsall ward, which is in the centre of Media City, the city centre ward has larger price fluctuations and a faster price increase. In general, the wards southwest of Media City have relatively stable prices and are generally higher than the average house price in the entire Manchester centre, while the eastern and northern parts of the city centre experience larger price fluctuations and are mostly below the average level.</p>
+            <span id="closeButton">×</span>
+        </div>
+        
+    </div>
+
+
+
+  
+
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ3lyMDYxNyIsImEiOiJjbGQxbGthOHgwZHVsM29tcHhnMDZnazRjIn0.uFXNmdK5Gydwz8talIxsYw'; // Put your Mapbox Public Access token here
+
+        // Load a new map in the 'map' HTML div
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/gyr0617/cli12cqo602ds01qu47ko3vq3', // stylesheet location
+            center: [-2.2426, 53.4808], // starting position [lng, lat]
+            zoom: 10 // starting zoom
+        });
+
+        map.on('load', function () {
+    // 创建缩放控件
+    var nav = new mapboxgl.NavigationControl();
+    // 添加缩放控件到地图
+    map.addControl(nav, 'bottom-right');
+});
+
+        map.on('load', function () {
+
+
+
+            map.addLayer({                  //Add the fill layer. It is not visible (opacity 0) and is used only as the basis of the hover selection
+                id: 'LocalAuthorities',
+                type: 'fill',
+                source: {
+                    type: 'vector',
+                    url: 'mapbox://gyr0617.cm1j48yx' // Your Mapbox tileset Map ID
+                },
+                'source-layer': 'newhousingprice-ayj60u', // name of tilesets
+                'layout': {
+                    'visibility': 'visible'
+                },
+                paint: {
+                    'fill-color': '#fff',
+                    'fill-opacity': 0
+                }
+            });
+
+
+            map.addLayer({                  // Add the line highlight layer. This layer has a filter, which initially is empty.
+                id: 'lahighlight',
+                type: 'line',
+                source: {
+                    type: 'vector',
+                    url: 'mapbox://gyr0617.cm1j48yx'// Your Mapbox tileset Map ID
+                },
+                'source-layer': 'newhousingprice-ayj60u', // name of tilesets
+                'layout': {
+                    'visibility': 'visible'
+                },
+                paint: {
+                    'line-color': '#FEFF86',
+                    'line-width': 4
+                },
+                filter: ['==', 'wd11nm', true]
+            });
+
+
+
+
+
+        });
+
+
+
+        // ...
+
+        map.on('mousemove', function (e) {
+            var la = map.queryRenderedFeatures(e.point, {
+                layers: ['LocalAuthorities']
+            });
+
+            if (la.length == 1) {
+                var properties = la[0].properties;
+
+                // Get the property values for each year
+                var years = ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'];
+                var prices = years.map(function (year) {
+                    return properties[year];
+                });
+
+                // Create the time series trace
+                var trace = {
+                    type: "scatter",
+                    mode: "lines",
+                    name: properties.wd11nm,
+                    x: years,
+                    y: prices,
+                    line: { color: '#146C94' }
+                };
+                var averge = ['148243.2','142428.5667', '129214.4667','130435.2333', '128671.2','132010.1333',	'135483.4667', '141144.7333','149976.9333','163782.9','177798.4','193815.5625']
+var trace1 ={
+    type: "scatter",
+                    mode: "lines",
+                    name: 'Centre Average',
+                    x: years,
+                    y: averge,
+                    line: { color: '#F79327' }
+}
+                // Create the data array
+                var data = [trace,trace1];
+
+                // Create the layout for the time series plot
+                var layout = {
+                    width: 600, // 指定图表的宽度，单位为像素
+                    height: 228, // 指定图表的高度，单位为像素
+                    margin: {
+                        l: 50, // 左边距
+                        r: 50, // 右边距
+
+                    },
+                    title: 'Housing Price Time Series for ' + properties.wd11nm + ' (Ward)',
+                    xaxis: {
+                        title: 'Year',
+                        range: ['2007-01-01', '2018-10-01'],
+                       
+                        type: 'date'
+                    },
+                    yaxis: {
+                        title: 'Price',
+                        range: [50000, 300000],
+                    }
+                };
+
+                // Update the plot with new data and layout
+                Plotly.newPlot('myDiv', data, layout, { responsive: true });
+            }
+        });
+
+        // ...
+
+        function showLayer(layerId) {
+            if (map.getLayer(layerId)) {
+                var visibility = map.getLayoutProperty(layerId, 'visibility');
+                if (visibility === 'visible') {
+                    map.setLayoutProperty(layerId, 'visibility', 'none');
+                } else {
+                    map.setLayoutProperty(layerId, 'visibility', 'visible');
+                }
+            }
+        }
+        var timeserieschartsButton = document.getElementById('timeseriescharts');
+        var housingpricecompareButton = document.getElementById('housingpricecompare');
+
+        timeserieschartsButton.addEventListener('click', function () {
+            window.location.href = 'Interactive_map.html';
+        });
+
+        housingpricecompareButton.addEventListener('click', function () {
+            window.location.href = 'mm.html';
+        });
+        map.on('mousemove', function (e) {       // This is the main event listner which is triggered when the mouse moves
+            var nn = map.queryRenderedFeatures(e.point, {   // This queries whether the mouse is over an object in the LocalAuthorities layer
+                layers: ['LocalAuthorities']
+            });
+
+
+            if (nn.length == 1) {   // This if statement is run when the mouse is over a local authority
+
+                map.setFilter('lahighlight', ['==', 'wd11nm', nn[0].properties.wd11nm]);  // Filter the highlight layer to show the local authority outline
+                console.log(nn[0].properties.wd11nm);
+
+                console.log(nn);
+
+            } else {
+                map.setFilter('lahighlight', ['==', 'wd11nm', 'null']);
+                console.log('No features');
+
+            }
+
+
+        });
+// Get the floating box and icon elements
+var floatingBox = document.getElementById('floatingBox');
+var icon = document.getElementById('icon');
+
+// Get the close button element
+var closeButton = document.getElementById('closeButton');
+
+// Close button click event
+closeButton.addEventListener('click', function () {
+    floatingBox.style.display = 'none';
+});
+
+// Icon click event
+icon.addEventListener('click', function () {
+    if (floatingBox.style.display === 'none') {
+        floatingBox.style.display = 'block';
+    }
+});
+
+
+
+
+    </script>
+
+</body>
+
+</html>

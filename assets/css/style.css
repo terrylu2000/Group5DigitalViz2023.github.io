@@ -343,7 +343,7 @@ h6 {
 
 #myDiv p {
 
-  font-size: 15px; /* 设置字体大小 */
+  font-size: 15px; 
   color: #151515df;
 }
 
@@ -351,13 +351,14 @@ h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 160px 120px;
+  padding: 40px 120px;
   overflow: hidden;
+
 }
 
 .section-title {
   text-align: center;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 .section-title h2 {
@@ -404,7 +405,7 @@ section {
 # history
 --------------------------------------------------------------*/
 .history {
-  background-color: #f0ece2bb; /* 设置底色，可以根据需要更改颜色值 */
+  background-color: #f0ece2bb; 
 }
 
 .history .content h3 {
@@ -444,10 +445,10 @@ section {
 
 .history .content .timeline-title {
   font-weight: 700;
-  font-size: 18px; /* 调整标题的字体大小 */
+  font-size: 18px;
   color: #ffffff;
-  text-align: center; /* 居中标题文本 */
-  margin-bottom: 20px; /* 调整标题与描述之间的间距 */
+  text-align: center; 
+  margin-bottom: 20px;
 }
 
 .history .content .timeline-description {
@@ -544,37 +545,107 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0px; 
 }
-
-
 
 .slope-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
+  margin-top: 0px; 
 }
+
 
 .slope1-container {
   flex: 1;
-  /* 可根据需要进行其他样式调整 */
+  margin-top: 0px; 
 }
 
 .slope2-container {
   flex: 1;
-  /* 可根据需要进行其他样式调整 */
+  margin-top: 0px; 
+}
+
+.popchange1-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
+.popchange1-img-container {
+  flex-basis: 60%;
+}
+.popchange1-txt-container {
+  flex-basis: 40%;
+}
+
+
+.popchange2-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 70px; 
+}
+
+
+.popchange2-img-container {
+  flex-basis: 60%;
+  /* margin-right: 50px; */
+}
+
+.popchange2-txt-container {
+  flex-basis: 40%;
+}
+
+/* 
 .popchange-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .popchange1-container,
 .popchange2-container {
-  flex: 1;
-  margin-right: 10px;
+  flex: 1 0 50%;
   text-align: center;
 }
+
+.popchange1-container {
+position: absolute;
+top: 0;
+height: 400px;
+}
+
+.popchange2-container {
+  order: -1; 
+}
+
+.popchange-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.popchange1-img-container {
+  position: absolute;
+  height: 400px;
+  top: 0;
+  left: 0;
+  width: 50%;
+
+}
+
+.popchange1-txt-container {
+  position: absolute;
+  height: 400px;
+  top: 0;
+  right: 0;
+  width: 50%;
+
+
+} */
 
 .text1,
 .text2 {
@@ -586,14 +657,19 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px; /* 设置第一个 div 的底部内部间距为 20px */
+  padding-bottom: 10px; 
+}
+
+.population2 {
+  background-color: #f0ece2bb; 
 }
 /*--------------------------------------------------------------
 # deprivation
 --------------------------------------------------------------*/
 /* .deprivation {
-  position: relative; /* 确保 .history 元素是相对定位的 */
+  position: relative; 
 /* }
+
 
 .deprivation::before {
   content: "";
@@ -619,14 +695,24 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px; /* 设置第一个 div 的底部内部间距为 20px */
+  padding-bottom: 40px;
+}
+
+/*--------------------------------------------------------------
+# housing
+--------------------------------------------------------------*/
+.housing {
+  background-color: #f0ece2bb; 
+}
+.housing2 {
+  background-color: #f0ece2bb; 
 }
 
 /*--------------------------------------------------------------
 # transportation
 --------------------------------------------------------------*/
 .transportation {
-  background-color: #efefefd3; /* 设置底色，可以根据需要更改颜色值 */
+  background-color: #f0ece2bb;
 }
 
 /* .transportation {
@@ -637,7 +723,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 40px; /* 设置第一个 div 的底部内部间距为 20px */
+    padding-bottom: 40px; 
   }
   
 
@@ -662,14 +748,26 @@ section {
   cursor: pointer;
   margin: 0px 0px;
 }
+#slide1 {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
 
 #before-after1 {
   position: relative;
   width: 80%;
   height: 300px;
   border: 2px solid rgb(255, 255, 255);
-  margin: 10px auto 0px;
+  margin: 10px auto;
+  left: 50%;
+  transform: translateX(-42%);
 }
+
 
 
 #before-after1 .view {
@@ -736,10 +834,7 @@ section {
 # Slider part2
 --------------------------------------------------------------*/
 
-#before-after-section2 {
-  text-align: center;
-  margin-top: 50px;
-}
+
 
 #slide2 {
   list-style: none;
@@ -751,16 +846,29 @@ section {
   display: inline-block;
   font-size: 14px;
   cursor: pointer;
-  margin: 0px 20px;
+  margin: 0px 0px;
 }
+#slide2 {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
 
 #before-after2 {
   position: relative;
   width: 80%;
   height: 300px;
   border: 2px solid rgb(255, 255, 255);
-  margin: 10px auto 0px;
+  margin: 10px auto;
+  left: 50%;
+  transform: translateX(-42%);
 }
+
+
 
 #before-after2 .view {
   position: absolute;
@@ -781,16 +889,14 @@ section {
 
 #dragme2 {
   position: absolute;
-  width: 4px;
+  width: 5px;
   height: 100%;
   top: 0px;
   left: 0px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgb(255, 255, 255,.8);
   cursor: pointer;
   z-index: 300;
 }
-
-
 
 .view {
   position: relative;
@@ -828,7 +934,7 @@ section {
 # future
 --------------------------------------------------------------*/
 .future {
-  position: relative; /* 确保 .history 元素是相对定位的 */
+  position: relative; 
 }
 
 .future::before {
@@ -847,23 +953,22 @@ section {
   background-repeat: repeat; 
 }
 
-/* .deprivation {
-  background-color: #f5fafd;} */
 
 .future-container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px; /* 设置第一个 div 的底部内部间距为 20px */
+  padding-bottom: 40px; 
 }
 
 .wordcloud-container {
-
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px; /* 请根据需要调整下边距的大小 */
+  margin-bottom: 50px;
 }
+
 
 
 /*--------------------------------------------------------------
