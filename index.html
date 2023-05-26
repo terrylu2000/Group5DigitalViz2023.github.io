@@ -31,6 +31,14 @@
 
   <!-- Load plotly.js into the DOM -->
   <script src='https://cdn.plot.ly/plotly-2.20.0.min.js'></script>
+  <style>
+        .textforchart {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  </style>
+    
 
 </head>
 
@@ -517,14 +525,28 @@
 
 <!-- === before after map1 === -->
 <section id="before-after-section1" class="before-after-section1">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js"></script>
+  
   <div class="container" data-aos="fade-up">
 
   <div class="section-title">
     <h3>Case one: MediaCityUK</h3>
-    <p>Magnam dolores commodi suscipit. ipit. Magnam dolores commodi suscipit. MagnMagnam dolores commodi suscipit. Magnam dolores commodi suscipit. MagnMagnam dolores commodi suscipit. Magnam dolores commodi suscipit. Magn. Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+    <p>This case highlights the urban regeneration of the MediaCity area in Manchester, focusing on the changes in buildings and the local economy. MediaCity is situated on the historic Manchester Docks, which played a vital role in the global textile trade. </p>
   </div>
 
+  <div class="bubble-container">
+    <iframe src="html/MediaCityTimeLine.html" width="80%" height="500"></iframe>
+    
+  </div>
+  <div class="textforchart">
+    <p>
+      The transformation of Media City began with the construction of the Manchester Ship Canal in 1887, connecting Manchester and Salford to the world. After the docks closed in 1982, the MediaCity project started in 2007 and officially opened in 2012, achieving significant milestones. 
+    </p>
+  </div>
+  
   <ul id="slide1">
+   
     <li class="to-start">Before</li>
     <li class="to-middle">Compare</li>
     <li class="to-end">After</li>
@@ -534,7 +556,11 @@
     <div class="view view-before"><img src="assets/img/salford_quay_before2.jpg" /></div>
     <div class="view view-after"><img src="assets/img/salford_quay_after2.jpg" /></div>
     <div id="dragme1"></div>
+   
   </div>
+  <div class="textforchart">
+  <p>Historical photos from 1963 and 2022 showcase the transformation of Media City, including the widening of the river channel and the replacement of small dockside bungalows with towering skyscrapers. </p></br>
+</div>
   <script>
     $(function(){
       var $dragMe = $("#dragme1");
@@ -580,101 +606,14 @@
   </script>
 </section>
 
-<div class="bubble-container">
-  <iframe src="html/MediaCityTimeLine.html" width="80%" height="500"></iframe>
-</div>
 
 <div class="bubble-container">
   <iframe src="html/charts.html" width="60%" height="600"></iframe>
 </div>
+<div class="textforchart">
+<p>Comparing deprivation indicators among the wards, Weaste and Seedley had the highest deprivation index in 2015, indicating the highest level of poverty. However, in 2019, while the employment and income scores decreased in Weaste and Seedley, the overall deprivation score increased, suggesting worsening conditions in other indicators. Ordsall, the main ward of Media City, consistently had the lowest level of deprivation and showed the most development. Furthermore, comparing 2015 and 2019, it can be observed that deprivation levels in Media City have continued to decrease. </p>
 
-<!-- === before after map2 === -->
-<section id="before-after-section2" class="before-after-section2">
-  <div class="container" data-aos="fade-up">
-  <div class="section-title">
-    <h3>Case two: Manchester City Centre</h3>
-    <p>Magnam dolores commodi suscipit. Magnam dnam dolores commodi suscipit. Magnam dolores comolores commodi suscipitMagnam dolores commodi suscipit. Magnam dolores commodi suscipit. MagnMagnam dolores commodi suscipit. Magnam dolores commodi suscipit. MagnMagnam dolores commodi suscipit. Magnam dolores commodi suscipit. Magn. Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-  </div>
-  <ul id="slide2">
-    <li class="to-start">Before</li>
-    <li class="to-middle">Compare</li>
-    <li class="to-end">After</li>
-  </ul>
-  
-  <div id="before-after2">
-    <div class="view view-before"><img src="assets/img/deansgate_before5.jpg" /></div>
-    <div class="view view-after"><img src="assets/img/deansgate_after5.jpg" /></div>
-    <div id="dragme2"></div>
-  </div>
-
-  <script>
-    $(function(){
-      var $dragMe = $("#dragme2");
-      var $beforeAfter = $("#before-after1");
-      var $viewAfter = $(".view-after");
-
-      Draggable.create($dragMe, {
-        type:"left",
-        bounds: $beforeAfter,
-        onDrag:updateImages
-      });
-      
-      function updateImages(){
-        TweenLite.set($viewAfter, {width: $dragMe.css("left") });
-      }
-      
-      //Intro Animation
-      animateTo(300);
-      
-      //External nav
-      $(".to-start").on("click", function(){
-        animateTo(20);
-      });
-      
-      $(".to-middle").on("click", function(){
-        animateTo(300);
-      });
-      
-      $(".to-end").on("click", function(){
-        animateTo(550);
-      });
-      
-      function animateTo(_left){
-        TweenLite.to($dragMe, 1, {left: _left, onUpdate: updateImages });
-      }
-      
-      //V2 Click added
-      $beforeAfter.on("click", function(event){
-        var eventLeft = event.clientX - $beforeAfter.offset().left;
-        animateTo(eventLeft);
-      });
-    });
- 
- </script>
-
-<section id="population" class="population">
-  <div class="container" data-aos="fade-up">
-
-      <p>Influenced by the ongoing regeneration, the housing price in the Manchester city centre area has changed significantly in the last two decades.</p>
-
-
-      <div class="big-container">
-        <div id="lu_container1" class="lu_container1">
-          <iframe src="Data Visualizationlu/city_centre_LSOAs.html" width="100%" height="400"></iframe>
-        </div>
-        <div id="lu_container2" class="lu_container2">
-          <iframe src="Data Visualizationlu/deprivation_GM_2010_2019.html" width="100%" height="400"></iframe>
-        </div>
-      </div>
-
-      <div class="bubble-container">
-        <iframe src="Data Visualizationlu/Housing_Prices.html" width="100%" height="600"></iframe>
-      </div>
-      
-</section>
-  </div>
-</section>
-
+</div>
 
 
 
@@ -695,10 +634,10 @@
   <div class="container" data-aos="fade-up">
 <div class="section-title">
   <h3>3D building view<br/> <br/></h3>
+  
 </div> 
 <p>
-  Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.
-  Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque. Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores.
+ The visualization of 3D buildings is achieved using CesiumJS 3DTiles and Google API. Upon initial load, the camera is adjusted with heading, pitch, and roll to fly directly into Media City UK building. The main interface consists of six buttons (as shown in the Fig.7). The "Select a Ward" and "Go to Coordinate" buttons allow users to jump to the coordinates of other wards and view the selected ward's 3D status from an overhead view. The "Start Auto Rotate" and "Stop Auto Rotate" buttons control the camera's self-rotation at the current viewpoint, enabling a 360-degree panoramic view. The smooth rotation is achieved using the setInterval timing function in Javascript. The "Add Marker" button allows users to add icons by capturing clicked coordinates. The "Drawing" button also adds entities but in the form of polygon entities. By providing coordinates, polygons are generated to highlight buildings, facilitating enhanced visibility.(Please select ward first then prsee go to coordinate.)
 </p>
 <div class="bubble-container">
   <iframe src="html/3D/3ddd.html" width="100%" height="700"></iframe>
