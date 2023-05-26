@@ -8,14 +8,16 @@
             <script src="echarts.min.js"></script>
         </head>
         <body>
-            
 
 
-                    <div class="chart_title_large">
-                        <p>Housing Prices Map in Greater Manchester</p>
-                    </div>
+            <div class="chart_title_large">
+                <p>Housing Prices Map in Greater Manchester</p>
+            </div>
                     <div class="chart_desc">
+                        
+                    </div>
 
+                    <div>
                         <select class="chart_select_year">
                             <option>2007</option>
                             <option>2008</option>
@@ -48,7 +50,7 @@
         let areaList = []; 
         let chart2RawData = [];   
         let chart2DataList = [];
-        
+        let chartYearSelect = document.getElementsByClassName('chart_select_year')[0];
         let chartMapData = [];
 
         getJSon('data/city_centre_LSOAs.json');
@@ -98,6 +100,10 @@
             xhr.open('GET', fileName, false)
             xhr.send(null)
         };
+
+        chartYearSelect.addEventListener('change', function(e){
+            renderMap(chartMapData, parseInt(e.target.value));
+        });
 
         function renderMap(mapData, currentYear){
             let mapYearData = {
