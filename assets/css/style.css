@@ -943,6 +943,22 @@ height: 400px;
   margin-right: 10px; 
 }
 
+.lu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.big-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.price-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*--------------------------------------------------------------
 # future
 --------------------------------------------------------------*/
