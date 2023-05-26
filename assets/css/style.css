@@ -930,6 +930,19 @@ height: 400px;
   color: #0563bb;
 }
 
+
+
+
+.big-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.lu_container1, .lu_container2 {
+  flex: 1;
+  margin-right: 10px; 
+}
+
 /*--------------------------------------------------------------
 # future
 --------------------------------------------------------------*/
