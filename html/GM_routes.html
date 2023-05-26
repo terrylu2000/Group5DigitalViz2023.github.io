@@ -120,7 +120,13 @@
 	</head>
 	<body>
 
-		<nav id="menu"></nav>
+		<div id="menu">
+			<a href="#" id="metroLinkLinesBtn" class="active">GM MetroLink Lines</a>
+			<a href="#" id="metroLinkStopsBtn" class="active">GM MetroLink Stops</a>
+			<a href="#" id="busRoutesBtn" class="active">GM BusRoutes</a>
+			<a href="#" id="busStopsBtn" class="active">GM Bus Stops</a>
+			<a href="#" id="keyRoutesBtn" class="active">GM KeyRoutes</a>
+		</div>
 		<div id='map'></div>
 
 		<div class='map-overlay'>
@@ -308,60 +314,102 @@
 							 firstSymbolId);
 
 
-				map.on('idle',()=>{
-					// If these layers were not added to the map, abort
-					if (!map.getLayer('GM_MetroLink_Lines')
-						||!map.getLayer('GM_MetroLink_Stops')
-						||!map.getLayer('GM_BusRoutes')
-						||!map.getLayer('GM_Bus_Stops')
-						||!map.getLayer('GM_KeyRoutes')) {
-						return;
-					}
+// 				map.on('idle',()=>{
+// 					// If these layers were not added to the map, abort
+// 					if (!map.getLayer('GM_MetroLink_Lines')
+// 						||!map.getLayer('GM_MetroLink_Stops')
+// 						||!map.getLayer('GM_BusRoutes')
+// 						||!map.getLayer('GM_Bus_Stops')
+// 						||!map.getLayer('GM_KeyRoutes')) {
+// 						return;
+// 					}
 
-					// Enumerate ids of the layers.
-					const toggleableLayerIds = ['GM_MetroLink_Lines', 'GM_MetroLink_Stops','GM_BusRoutes','GM_Bus_Stops','GM_KeyRoutes'];
+// 					// Enumerate ids of the layers.
+// 					const toggleableLayerIds = ['GM_MetroLink_Lines', 'GM_MetroLink_Stops','GM_BusRoutes','GM_Bus_Stops','GM_KeyRoutes'];
 
-					for (const id of toggleableLayerIds) {
-						//Skip layers that already have a button set up
-						if (document.getElementById(id)){
-							continue;
-						}
-						//Create a link
-						const link = document.createElement('a');
-						link.id=id;
-						link.href='#';
-						link.textContent=id;
-						link.className='active';
-						// Show or hide layer when the toggle is clicked.
-						link.onclick = function (e) {
-							const clickedLayer = this.textContent;
-							e.preventDefault();
-							e.stopPropagation();
+// 					for (const id of toggleableLayerIds) {
+// 						//Skip layers that already have a button set up
+// 						if (document.getElementById(id)){
+// 							continue;
+// 						}
+// 						//Create a link
+// 						const link = document.createElement('a');
+// 						link.id=id;
+// 						link.href='#';
+// 						link.textContent=id;
+// 						link.className='active';
+// 						// Show or hide layer when the toggle is clicked.
+// 						link.onclick = function (e) {
+// 							const clickedLayer = this.textContent;
+// 							e.preventDefault();
+// 							e.stopPropagation();
 
-							const visibility  = map.getLayoutProperty(
-								clickedLayer,
-								'visibility'
-							);
+// 							const visibility  = map.getLayoutProperty(
+// 								clickedLayer,
+// 								'visibility'
+// 							);
 
 
-							// Toggle layer visibility by changing the layout object's visibility property.
-							if (visibility === 'visible') {
-								map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-								this.className = '';
-							} else {
-								this.className = 'active';
-								map.setLayoutProperty(
-									clickedLayer,
-									'visibility',
-									'visible'
-								);
-							}
-						};
+// 							// Toggle layer visibility by changing the layout object's visibility property.
+// 							if (visibility === 'visible') {
+// 								map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+// 								this.className = '';
+// 							} else {
+// 								this.className = 'active';
+// 								map.setLayoutProperty(
+// 									clickedLayer,
+// 									'visibility',
+// 									'visible'
+// 								);
+// 							}
+// 						};
 
-						const layers = document.getElementById('menu');
-						layers.appendChild(link);
+// 						const layers = document.getElementById('menu');
+// 						layers.appendChild(link);
 
-					}
+// 					}
+// 				});
+				
+				// Get references to the menu buttons
+				const metroLinkLinesBtn = document.getElementById('metroLinkLinesBtn');
+				const metroLinkStopsBtn = document.getElementById('metroLinkStopsBtn');
+				const busRoutesBtn = document.getElementById('busRoutesBtn');
+				const busStopsBtn = document.getElementById('busStopsBtn');
+				const keyRoutesBtn = document.getElementById('keyRoutesBtn');
+
+				// Toggle the visibility of the GM MetroLink Lines layer
+				metroLinkLinesBtn.addEventListener('click', function() {
+					const visibility = map.getLayoutProperty('GM_MetroLink_Lines', 'visibility');
+					map.setLayoutProperty('GM_MetroLink_Lines', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+					this.classList.toggle('active');
+				});
+
+				// Toggle the visibility of the GM MetroLink Stops layer
+				metroLinkStopsBtn.addEventListener('click', function() {
+					const visibility = map.getLayoutProperty('GM_MetroLink_Stops', 'visibility');
+					map.setLayoutProperty('GM_MetroLink_Stops', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+					this.classList.toggle('active');
+				});
+
+				// Toggle the visibility of the GM BusRoutes layer
+				busRoutesBtn.addEventListener('click', function() {
+					const visibility = map.getLayoutProperty('GM_BusRoutes', 'visibility');
+					map.setLayoutProperty('GM_BusRoutes', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+					this.classList.toggle('active');
+				});
+
+				// Toggle the visibility of the GM Bus Stops layer
+				busStopsBtn.addEventListener('click', function() {
+					const visibility = map.getLayoutProperty('GM_Bus_Stops', 'visibility');
+					map.setLayoutProperty('GM_Bus_Stops', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+					this.classList.toggle('active');
+				});
+
+				// Toggle the visibility of the GM KeyRoutes layer
+				keyRoutesBtn.addEventListener('click', function() {
+					const visibility = map.getLayoutProperty('GM_KeyRoutes', 'visibility');
+					map.setLayoutProperty('GM_KeyRoutes', 'visibility', visibility === 'visible' ? 'none' : 'visible');
+					this.classList.toggle('active');
 				});
 
 
